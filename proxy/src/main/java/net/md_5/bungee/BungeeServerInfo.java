@@ -62,7 +62,7 @@ public class BungeeServerInfo extends ServerInfo
 
                     String[] split = response.message.split( "\00" );
 
-                    ServerPing ping = new ServerPing( Byte.parseByte( split[1] ), split[2], split[3], Integer.parseInt( split[4] ), Integer.parseInt( split[5] ) );
+                    ServerPing ping = new ServerPing( Byte.parseByte( split[1] ), split[2], Integer.parseInt( split[3] ), Integer.parseInt( split[4] ) );
                     callback.done( ping, null );
                 } catch ( Throwable t )
                 {

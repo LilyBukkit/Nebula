@@ -19,10 +19,6 @@ public class ServerPing
      */
     private final String gameVersion;
     /**
-     * Server MOTD.
-     */
-    private final String motd;
-    /**
      * Current amount of players on the server.
      */
     private final int currentPlayers;

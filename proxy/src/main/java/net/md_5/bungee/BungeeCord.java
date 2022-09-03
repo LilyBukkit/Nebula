@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.Synchronized;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.ReconnectHandler;
-import net.md_5.bungee.api.TabListHandler;
 import net.md_5.bungee.api.config.ConfigurationAdapter;
 import net.md_5.bungee.api.config.ListenerInfo;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -56,11 +55,11 @@ public class BungeeCord extends ProxyServer {
     /**
      * Server protocol version.
      */
-    public static final byte PROTOCOL_VERSION = 51;
+    public static final byte PROTOCOL_VERSION = 2; //Will work with protocol version 2 for now
     /**
      * Server game version.
      */
-    public static final String GAME_VERSION = "1.4.6";
+    public static final String GAME_VERSION = "1.0.16.05_13";
     /**
      * Current operation state.
      */
@@ -85,12 +84,6 @@ public class BungeeCord extends ProxyServer {
      * Fully qualified connections.
      */
     public Map<String, UserConnection> connections = new ConcurrentHashMap<>();
-    /**
-     * Tab list handler
-     */
-    @Getter
-    @Setter
-    public TabListHandler tabListHandler;
     /**
      * Plugin manager.
      */
@@ -131,7 +124,7 @@ public class BungeeCord extends ProxyServer {
     public static void main(String[] args) throws IOException {
         BungeeCord bungee = new BungeeCord();
         ProxyServer.setInstance(bungee);
-        $().info("Enabled BungeeCord version " + bungee.getVersion());
+        $().info("Enabled Nebula version " + bungee.getVersion());
         bungee.start();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

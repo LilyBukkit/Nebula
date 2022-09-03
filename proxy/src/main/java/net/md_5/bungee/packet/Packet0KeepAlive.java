@@ -5,20 +5,17 @@ import lombok.ToString;
 
 @ToString
 @EqualsAndHashCode(callSuper = false)
-public class Packet0KeepAlive extends DefinedPacket
-{
+public class Packet0KeepAlive extends DefinedPacket {
 
     public int id;
 
-    public Packet0KeepAlive(byte[] buffer)
-    {
-        super( 0x00, buffer );
+    public Packet0KeepAlive(byte[] buffer) {
+        super(0x00, buffer);
         id = readInt();
     }
 
     @Override
-    public void handle(PacketHandler handler) throws Exception
-    {
-        handler.handle( this );
+    public void handle(PacketHandler handler) throws Exception {
+        handler.handle(this);
     }
 }

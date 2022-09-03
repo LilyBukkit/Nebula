@@ -10,6 +10,10 @@ public class PacketDefinitions
     public static final int VANILLA_PROTOCOL = 0;
     public static final int FORGE_PROTOCOL = MAX_PACKET;
 
+    //jic
+    public static final int ROSEPAD_PROTOCOL = 130;
+
+
     public enum OpCode
     {
 

@@ -47,7 +47,7 @@
                     <archive>
                         <manifestEntries>
                             <Main-Class>net.md_5.bungee.BungeeCord</Main-Class>
-                            <Implementation-Version>${describe}</Implementation-Version>
+                            <Implementation-Version>${version}</Implementation-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>

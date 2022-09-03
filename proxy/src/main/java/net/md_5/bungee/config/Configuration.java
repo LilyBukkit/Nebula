@@ -1,33 +1,21 @@
 package net.md_5.bungee.config;
 
 import com.google.common.base.Preconditions;
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
 import lombok.Getter;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ConfigurationAdapter;
 import net.md_5.bungee.api.config.ListenerInfo;
 import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.tablist.GlobalPingTabList;
-import net.md_5.bungee.tablist.GlobalTabList;
-import net.md_5.bungee.tablist.ServerUniqueTabList;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Core configuration for the proxy.
  */
 @Getter
-public class Configuration
-{
-
-    /**
-     * The default tab list options available for picking.
-     */
-    private enum DefaultTabList
-    {
-
-        GLOBAL, GLOBAL_PING, SERVER;
-    }
+public class Configuration {
     /**
      * Time before users are disconnected due to no network activity.
      */
@@ -50,43 +38,23 @@ public class Configuration
     private boolean onlineMode = true;
     private int sleepTime = 1;
 
-    public void load()
-    {
+    public void load() {
         ConfigurationAdapter adapter = ProxyServer.getInstance().getConfigurationAdapter();
         adapter.load();
 
-        timeout = adapter.getInt( "timeout", timeout );
-        uuid = adapter.getString( "stats", uuid );
-        onlineMode = adapter.getBoolean( "online_mode", onlineMode );
-        sleepTime = adapter.getInt( "sleep_time", sleepTime );
-
-        DefaultTabList tab = DefaultTabList.valueOf( adapter.getString( "tab_list", "GLOBAL_PING" ) );
-        if ( tab == null )
-        {
-            tab = DefaultTabList.GLOBAL_PING;
-        }
-        switch ( tab )
-        {
-            case GLOBAL:
-                ProxyServer.getInstance().setTabListHandler( new GlobalTabList() );
-                break;
-            case GLOBAL_PING:
-                ProxyServer.getInstance().setTabListHandler( new GlobalPingTabList() );
-                break;
-            case SERVER:
-                ProxyServer.getInstance().setTabListHandler( new ServerUniqueTabList() );
-                break;
-        }
+        timeout = adapter.getInt("timeout", timeout);
+        uuid = adapter.getString("stats", uuid);
+        onlineMode = adapter.getBoolean("online_mode", onlineMode);
+        sleepTime = adapter.getInt("sleep_time", sleepTime);
 
         listeners = adapter.getListeners();
-        Preconditions.checkArgument( listeners != null && !listeners.isEmpty(), "No listeners defined." );
+        Preconditions.checkArgument(listeners != null && !listeners.isEmpty(), "No listeners defined.");
 
         servers = adapter.getServers();
-        Preconditions.checkArgument( servers != null && !servers.isEmpty(), "No servers defined" );
+        Preconditions.checkArgument(servers != null && !servers.isEmpty(), "No servers defined");
 
-        for ( ListenerInfo listener : listeners )
-        {
-            Preconditions.checkArgument( servers.containsKey( listener.getDefaultServer() ) );
+        for (ListenerInfo listener : listeners) {
+            Preconditions.checkArgument(servers.containsKey(listener.getDefaultServer()));
         }
     }
 }

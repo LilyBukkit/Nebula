@@ -17,17 +17,9 @@ public class ListenerInfo
      */
     private final InetSocketAddress host;
     /**
-     * Displayed MOTD.
-     */
-    private final String motd;
-    /**
      * Max amount of slots displayed on the ping page.
      */
     private final int maxPlayers;
-    /**
-     * Number of players to be shown on the tab list.
-     */
-    private final int tabListSize;
     /**
      * Name of the server which users will be taken to by default.
      */
