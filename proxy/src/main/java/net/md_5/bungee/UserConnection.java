@@ -15,7 +15,6 @@ import net.md_5.bungee.packet.Packet0KeepAlive;
 import net.md_5.bungee.packet.Packet1Login;
 import net.md_5.bungee.packet.Packet2Handshake;
 import net.md_5.bungee.packet.Packet3Chat;
-import net.md_5.bungee.packet.Packet9Respawn;
 import net.md_5.bungee.packet.PacketFAPluginMessage;
 import net.md_5.bungee.packet.PacketFFKick;
 import net.md_5.bungee.packet.PacketStream;
@@ -104,19 +103,14 @@ public final class UserConnection extends GenericConnection implements ProxiedPl
         try {
             reconnecting = true;
 
-            if (server != null) {
-                stream.write(new Packet9Respawn((byte) 1, (byte) 0, (byte) 0, (short) 256, "DEFAULT"));
-                stream.write(new Packet9Respawn((byte) -1, (byte) 0, (byte) 0, (short) 256, "DEFAULT"));
-            }
-
             ServerConnection newServer = ServerConnector.connect(this, target, true);
             if (server == null) {
                 // Once again, first connection
-                clientEntityId = newServer.loginPacket.entityId;
-                serverEntityId = newServer.loginPacket.entityId;
+                //clientEntityId = newServer.loginPacket.entityId;
+                //serverEntityId = newServer.loginPacket.entityId;
                 // Set tab list size
                 Packet1Login s = newServer.loginPacket;
-                Packet1Login login = new Packet1Login(s.entityId, s.levelType, s.gameMode, (byte) s.dimension, s.difficulty, s.unused, (byte) /*pendingConnection.getListener().getTabListSize()*/pendingConnection.getListener().getMaxPlayers());
+                Packet1Login login = new Packet1Login(s.protocolVersion, s.username, s.password);
                 stream.write(login);
                 stream.write(BungeeCord.getInstance().registerChannels());
 
@@ -133,8 +127,7 @@ public final class UserConnection extends GenericConnection implements ProxiedPl
                 server.getInfo().removePlayer(this);
 
                 Packet1Login login = newServer.loginPacket;
-                serverEntityId = login.entityId;
-                stream.write(new Packet9Respawn(login.dimension, login.difficulty, login.gameMode, (short) 256, login.levelType));
+                //serverEntityId = login.entityId;
             }
 
             // Reconnect process has finished, lets get the player moving again
@@ -436,7 +429,7 @@ public final class UserConnection extends GenericConnection implements ProxiedPl
                             }
                             break;
                         case 0xFF:
-                            disconnect(new PacketFFKick(packet).message);
+                            disconnect(new PacketFFKick(packet).reason);
                             break outer;
                     }
 

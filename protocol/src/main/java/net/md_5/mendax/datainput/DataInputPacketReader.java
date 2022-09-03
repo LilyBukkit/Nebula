@@ -1,93 +1,78 @@
 package net.md_5.mendax.datainput;
 
+import net.md_5.mendax.PacketDefinitions;
+import net.md_5.mendax.PacketDefinitions.OpCode;
+
 import java.io.DataInput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import net.md_5.mendax.PacketDefinitions;
-import net.md_5.mendax.PacketDefinitions.OpCode;
 
-public class DataInputPacketReader
-{
+public class DataInputPacketReader {
 
-    private static final Instruction[][] instructions = new Instruction[ 256 ][];
+    private static final Instruction[][] instructions = new Instruction[256][];
 
-    static
-    {
-        for ( int i = 0; i < instructions.length; i++ )
-        {
+    static {
+        for (int i = 0; i < instructions.length; i++) {
             List<Instruction> output = new ArrayList<>();
 
             OpCode[] enums = PacketDefinitions.opCodes[i];
-            if ( enums != null )
-            {
-                for ( OpCode struct : enums )
-                {
-                    try
-                    {
-                        output.add( (Instruction) Instruction.class.getDeclaredField( struct.name() ).get( null ) );
-                    } catch ( NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex )
-                    {
-                        throw new UnsupportedOperationException( "No definition for " + struct.name() );
+            if (enums != null) {
+                for (OpCode struct : enums) {
+                    try {
+                        output.add((Instruction) Instruction.class.getDeclaredField(struct.name()).get(null));
+                    } catch (NoSuchFieldException | SecurityException | IllegalArgumentException |
+                             IllegalAccessException ex) {
+                        throw new UnsupportedOperationException("No definition for " + struct.name());
                     }
                 }
 
                 List<Instruction> crushed = new ArrayList<>();
                 int nextJumpSize = 0;
-                for ( Instruction child : output )
-                {
-                    if ( child instanceof Jump )
-                    {
-                        nextJumpSize += ( (Jump) child ).len;
-                    } else
-                    {
-                        if ( nextJumpSize != 0 )
-                        {
-                            crushed.add( new Jump( nextJumpSize ) );
+                for (Instruction child : output) {
+                    if (child instanceof Jump) {
+                        nextJumpSize += ((Jump) child).len;
+                    } else {
+                        if (nextJumpSize != 0) {
+                            crushed.add(new Jump(nextJumpSize));
                         }
-                        crushed.add( child );
+                        crushed.add(child);
                         nextJumpSize = 0;
                     }
                 }
-                if ( nextJumpSize != 0 )
-                {
-                    crushed.add( new Jump( nextJumpSize ) );
+                if (nextJumpSize != 0) {
+                    crushed.add(new Jump(nextJumpSize));
                 }
 
-                instructions[i] = crushed.toArray( new Instruction[ crushed.size() ] );
+                instructions[i] = crushed.toArray(new Instruction[crushed.size()]);
             }
         }
     }
 
-    private static void readPacket(int packetId, DataInput in, byte[] buffer, int protocol) throws IOException
-    {
+    private static void readPacket(int packetId, DataInput in, byte[] buffer, int protocol) throws IOException {
         Instruction[] packetDef = null;
-        if ( packetId + protocol < instructions.length )
-        {
+        if (packetId + protocol < instructions.length) {
             packetDef = instructions[packetId + protocol];
         }
 
-        if ( packetDef == null )
-        {
-            if ( protocol == PacketDefinitions.VANILLA_PROTOCOL )
-            {
-                throw new IOException( "Unknown packet id " + packetId );
-            } else
-            {
-                readPacket( packetId, in, buffer, PacketDefinitions.VANILLA_PROTOCOL );
+        if (packetDef == null) {
+            if (protocol == PacketDefinitions.VANILLA_PROTOCOL) {
+                throw new IOException("Unknown packet id " + packetId);
+            } else {
+                readPacket(packetId, in, buffer, PacketDefinitions.VANILLA_PROTOCOL);
                 return;
             }
         }
 
-        for ( Instruction instruction : packetDef )
-        {
-            instruction.read( in, buffer );
+        for (Instruction instruction : packetDef) {
+            System.out.println("Attempting to read instruction " + instruction.toString());
+            instruction.read(in, buffer); //!
         }
     }
 
-    public static void readPacket(DataInput in, byte[] buffer, int protocol) throws IOException
-    {
+    public static void readPacket(DataInput in, byte[] buffer, int protocol) throws IOException {
         int packetId = in.readUnsignedByte();
-        readPacket( packetId, in, buffer, protocol );
+        System.out.println("Received packet " + packetId);
+        readPacket(packetId, in, buffer, protocol); //!
     }
 }

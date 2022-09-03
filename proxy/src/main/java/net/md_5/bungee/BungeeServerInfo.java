@@ -60,7 +60,7 @@ public class BungeeServerInfo extends ServerInfo
                     PacketStream in = new PacketStream( socket.getInputStream(), PacketDefinitions.VANILLA_PROTOCOL );
                     PacketFFKick response = new PacketFFKick( in.readPacket() );
 
-                    String[] split = response.message.split( "\00" );
+                    String[] split = response.reason.split( "\00" );
 
                     ServerPing ping = new ServerPing( Byte.parseByte( split[1] ), split[2], Integer.parseInt( split[3] ), Integer.parseInt( split[4] ) );
                     callback.done( ping, null );

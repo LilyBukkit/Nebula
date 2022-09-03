@@ -53,7 +53,7 @@ public class PacketStream implements AutoCloseable {
      */
     public byte[] readPacket() throws IOException {
         tracker.out.reset();
-        DataInputPacketReader.readPacket(dataInput, buffer, protocol);
+        DataInputPacketReader.readPacket(dataInput, buffer, protocol); //!
         return tracker.out.toByteArray();
     }
 
@@ -84,8 +84,8 @@ public class PacketStream implements AutoCloseable {
         @Override
         public int read(byte[] b, int off, int len) throws IOException {
             int ret = in.read(b, off, len);
-            if (b.length > off && ret - off < b.length) //Nebula
-                out.write(b, off, ret);
+            System.out.println("Attempting to write to ByteOutputStream an array of size " + b.length + " with offset " + off + " and length " + ret);
+            out.write(b, off, ret); //!
             return ret;
         }
     }

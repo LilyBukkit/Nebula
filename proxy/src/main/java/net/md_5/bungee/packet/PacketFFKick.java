@@ -8,18 +8,18 @@ import lombok.ToString;
 public class PacketFFKick extends DefinedPacket
 {
 
-    public String message;
+    public String reason;
 
-    public PacketFFKick(String message)
+    public PacketFFKick(String reason)
     {
         super( 0xFF );
-        writeUTF( message );
+        writeUTF(reason);
     }
 
     public PacketFFKick(byte[] buf)
     {
         super( 0xFF, buf );
-        this.message = readUTF();
+        this.reason = readUTF();
     }
 
     @Override

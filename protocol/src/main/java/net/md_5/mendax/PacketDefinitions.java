@@ -32,7 +32,7 @@ public class PacketDefinitions
         };
         opCodes[0x02] = new OpCode[]
         {
-            BYTE, STRING, STRING, INT
+            STRING
         };
         opCodes[0x03] = new OpCode[]
         {
