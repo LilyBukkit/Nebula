@@ -1,2 +1,2 @@
 # Nebula
-A BungeeCord 1.4.7 rewrite attempt
+An attempt to create a BungeeCord analogue for AlphaVers. Stay tuned!
