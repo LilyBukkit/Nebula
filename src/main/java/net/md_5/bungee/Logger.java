@@ -3,7 +3,6 @@ package net.md_5.bungee;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;

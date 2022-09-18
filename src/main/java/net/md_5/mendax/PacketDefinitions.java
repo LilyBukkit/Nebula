@@ -28,7 +28,7 @@ public class PacketDefinitions
         };
         opCodes[0x01] = new OpCode[]
         {
-            INT, STRING, BYTE, BYTE, BYTE, BYTE, BYTE
+            INT, STRING, STRING
         };
         opCodes[0x02] = new OpCode[]
         {
@@ -40,7 +40,7 @@ public class PacketDefinitions
         };
         opCodes[0x04] = new OpCode[]
         {
-            LONG, LONG
+            LONG
         };
         opCodes[0x05] = new OpCode[]
         {
@@ -64,7 +64,7 @@ public class PacketDefinitions
         };
         opCodes[0x0A] = new OpCode[]
         {
-            BOOLEAN
+            INT
         };
         opCodes[0x0B] = new OpCode[]
         {

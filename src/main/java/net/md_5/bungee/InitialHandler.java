@@ -70,10 +70,10 @@ public class InitialHandler extends PacketHandler implements Runnable, PendingCo
 
     @Override
     public void handle(Packet1Login login) throws Exception {
-        /*Preconditions.checkState(thisState == State.LOGIN, "Not expecting FORGE LOGIN");
-        Preconditions.checkState(this.login == null, "Already received FORGE LOGIN");*/
+        Preconditions.checkState(thisState == State.LOGIN, "Not expecting FORGE LOGIN");
+        Preconditions.checkState(this.login == null, "Already received FORGE LOGIN");
         this.login = login;
-        //stream.setProtocol(PacketDefinitions.FORGE_PROTOCOL);
+        stream.setProtocol(PacketDefinitions.FORGE_PROTOCOL);
     }
 
     @Override
@@ -110,12 +110,14 @@ public class InitialHandler extends PacketHandler implements Runnable, PendingCo
     public void handle(Packet2Handshake handshake) throws Exception {
         Preconditions.checkState(thisState == State.HANDSHAKE, "Not expecting HANDSHAKE");
         this.handshake = handshake;
+        stream.write(request = EncryptionUtil.encryptRequest());
+        thisState = State.ENCRYPT;
     }
 
     @Override
     public void handle(Packet82RosepadMeta rosepadMeta) throws Exception {
         this.meta = rosepadMeta;
-        //stream.write(forgeMods);
+        stream.write(forgeMods);
         stream.write(request = EncryptionUtil.encryptRequest());
         thisState = State.ENCRYPT;
     }

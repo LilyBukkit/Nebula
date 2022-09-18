@@ -79,7 +79,7 @@ public class BungeeCord extends ProxyServer {
     /**
      * Server socket listener.
      */
-    private Collection<ListenThread> listeners = new HashSet<>();
+    private final Collection<ListenThread> listeners = new HashSet<>();
     /**
      * Fully qualified connections.
      */
@@ -123,7 +123,7 @@ public class BungeeCord extends ProxyServer {
      */
     public static void main(String[] args) throws IOException {
         BungeeCord bungee = new BungeeCord();
-        ProxyServer.setInstance(bungee);
+        setInstance(bungee);
         $().info("Enabled Nebula version " + bungee.getVersion());
         bungee.start();
 
